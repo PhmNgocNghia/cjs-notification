@@ -33,8 +33,8 @@ export default {
      * Automatically assign next + concat notification
      */
     concatNotificationData (notificationData) {
-      this.notificationData.next = notificationData.next
-      this.notificationData.results.concat(notificationData.results)
+      this.next = notificationData.next
+      this.notificationItems = this.notificationItems.concat(notificationData.results)
     },
 
     notificationListOnScroll(next) {
@@ -50,21 +50,12 @@ export default {
 
     toggleNotificationList() {
       this.isShowNotificationList = !this.isShowNotificationList;
-
-      /**
-       * Set data will trigger re-render and computation
-       * Should calculate before set data
-       */
-      if (this.notificationCount !== 0) {
-        this.notificationCount = 0;
-      }
+      this.notificationCount = 0;
     }
   },
 
   created() {
-    this.notificationCount = this.propNotificationData.unread_list
-      ? this.propNotificationData.unread_list.length
-      : 0;
+    this.notificationCount = this.propNotificationData.unread_list.length
 
     /**
      * Set default value

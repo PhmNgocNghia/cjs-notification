@@ -30,6 +30,7 @@ export default {
   methods: {
     /**
      * Emmit if next prop exist
+     * Manually test: No Unit Test idea yet ??
      */
     scroll() {
       if (this.next) {
