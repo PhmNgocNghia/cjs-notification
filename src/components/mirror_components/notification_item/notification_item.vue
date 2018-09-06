@@ -4,9 +4,10 @@
     <div class="col-md-10">
       <div class="notification-item__data">
         <div v-if="notificationData.type_notification==='change_log'">
-          <b class="notification-item__display-name">Cloudjet KPI uppastd new version: </b>
-          <span class="notification-item__version">Version {{notificationData.version}} </span>
-          <span class="notification-item__release-data">Uppastd {{notificationData.release_past}} </span>
+          <b class="notification-item__display-name">Cloudjet KPI updated new version:</b>
+          <span class="notification-item__version">Version {{notificationData.version}}</span>
+          <span class="notification-item__release-date">updated {{notificationData.release_date}}</span>
+          <span class="notification-item__content-action" v-html="notificationData.description"></span>
         </div>
       
         <div v-else>
@@ -28,19 +29,20 @@ export default {
      */
     diffTimeToString() {
       var now = new Date()
-      var past = new Date(this.notificationData.timeStamp)
+      var past = new Date(this.notificationData.timestamp)
       var diffTime = now.getTime() - past.getTime();
       var diffmin = diffTime / (1000 * 60);
       var diffHours = diffmin / 60;
       var diffDay = diffHours / 24;
+
       if (diffDay >= 1.5) {
-        return;
+        return
           past.getDate() +
             "/" +
             past.getMonth() +
             "/" +
             past.getFullYear() +
-            ' {% trans "at" %} ' +
+            ' at ' +
             past.getHours() +
             ":" +
             past.getMinutes() +
@@ -49,17 +51,17 @@ export default {
       }
       
       if (diffDay < 1.5 && diffDay >= 1) {
-        return parseInt(diffDay) + ' {% trans "days ago" %}';
+        return parseInt(diffDay) + ' day ago';
       }
       
       if (diffHours >= 1) {
-        return parseInt(diffHours) + ' {% trans "hours ago" %}';
+        return parseInt(diffHours) + ' hours ago';
       }
 
-      if (diffmin < 60) {
-        return parseInt(diffmin) + ' {% trans "minutes ago" %}';
+      if (diffmin < 60 && diffmin >= 1) {
+        return parseInt(diffmin) + ' minutes ago';
       } else {
-        return '{% trans "recent" %}';
+        return 'recent';
       }
     }
   },
