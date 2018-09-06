@@ -28,14 +28,15 @@ describe('notification item', () => {
       }
     }
 
-    it('display time if day > 1.5', () => {
+    it('display time in correct format if day > 1.5', () => {
       // Minus 2 days
-      let mockedTime = moment().subtract(1.4, 'days').format()
+      let mockedTime = new Date('2015-03-25 2:30:00')
+      let mockedTimeStr = mockedTime.toISOString()
 
       // Integrate data with wrapper
       const customMockedData = Object.assign({}, defaultMockedData, {
         notificationData: {
-          timestamp: mockedTime
+          timestamp: mockedTimeStr
         }
       })
 
@@ -44,9 +45,9 @@ describe('notification item', () => {
       })
 
       // Test case
-      const date = wrapper.find('.notification-item__diffTime')
+      const date = wrapper.find ('.notification-item__diffTime')
       expect(date.exists())
-      expect(date.text()).to.equal('1 day ago')
+      expect(date.text()).to.equal('25/3/2015 at 2:30:0')
     })
 
     it('display day ago if day in [1, 1.5] days', () => {

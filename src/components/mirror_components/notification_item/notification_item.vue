@@ -28,40 +28,39 @@ export default {
      * Business:
      */
     diffTimeToString() {
-      var now = new Date()
-      var past = new Date(this.notificationData.timestamp)
-      var diffTime = now.getTime() - past.getTime();
-      var diffmin = diffTime / (1000 * 60);
+      var now = new Date();
+      var past = new Date(this.notificationData.timestamp);
+      var diffTimeInMs = now.getTime() - past.getTime();
+      var diffmin = diffTimeInMs / (1000 * 60);
       var diffHours = diffmin / 60;
       var diffDay = diffHours / 24;
 
       if (diffDay >= 1.5) {
-        return
-          past.getDate() +
-            "/" +
-            past.getMonth() +
-            "/" +
-            past.getFullYear() +
-            ' at ' +
-            past.getHours() +
-            ":" +
-            past.getMinutes() +
-            ":" +
-            past.getSeconds();
+        return past.getDate() +
+          "/" +
+          (past.getMonth() + 1) +
+          "/" +
+          past.getFullYear() +
+          " at " +
+          past.getHours() +
+          ":" +
+          past.getMinutes() +
+          ":" +
+          past.getSeconds();
       }
-      
+
       if (diffDay < 1.5 && diffDay >= 1) {
-        return parseInt(diffDay) + ' day ago';
+        return parseInt(diffDay) + " day ago";
       }
-      
+
       if (diffHours >= 1) {
-        return parseInt(diffHours) + ' hours ago';
+        return parseInt(diffHours) + " hours ago";
       }
 
       if (diffmin < 60 && diffmin >= 1) {
-        return parseInt(diffmin) + ' minutes ago';
+        return parseInt(diffmin) + " minutes ago";
       } else {
-        return 'recent';
+        return "recent";
       }
     }
   },

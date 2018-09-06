@@ -34,7 +34,13 @@ export default {
     scroll() {
       if (this.next) {
         const notificationItemScrollableWrapper = this.$refs.notificationItemScrollableWrapper
-        if (notificationItemScrollableWrapper.scrollHeight - notificationItemScrollableWrapper.scrollTop === notificationItemScrollableWrapper.clientHeight) {
+        
+        /**
+         * Scroll touch bottom
+         * Don't know how this shit work but it was ameizing
+         */
+        if (notificationItemScrollableWrapper.scrollHeight - notificationItemScrollableWrapper.scrollTop === 
+          notificationItemScrollableWrapper.clientHeight) {
           /**
            * Bubble to top componentn: notificatoin
            *

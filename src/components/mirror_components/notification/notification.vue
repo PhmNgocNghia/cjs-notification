@@ -12,26 +12,29 @@
       class="notification__list"
       :notificationItems="notificationItems"
       :href="href"
-      :next="notificationData.data.next"
-    />
+      :next="next"
+    />   
   </div>
 </template>
 
 <script>
-/**
- * MAINTAINER: NGHĨA
- */
 import notificationBell from "../notification_bell/notification_bell";
 import notificationList from "../notification_list/notification_list";
 
 export default {
+  components: {
+    notification_bell: notificationBell,
+    notification_list: notificationList
+  },
+
   methods: {
     /**
      * Input new lazy load data here
-     * Automatically assign net + concat notification
+     * Automatically assign next + concat notification
      */
     concatNotificationData (notificationData) {
-
+      this.notificationData.next = notificationData.next
+      this.notificationData.results.concat(notificationData.results)
     },
 
     notificationListOnScroll(next) {
@@ -59,25 +62,38 @@ export default {
   },
 
   created() {
-    this.notificationCount = this.notificationData.data.unread_list
-      ? this.notificationData.data.unread_list.length
+    this.notificationCount = this.propNotificationData.unread_list
+      ? this.propNotificationData.unread_list.length
       : 0;
-    this.notificationItems = this.notificationData.data.results;
-  },
 
+    /**
+     * Set default value
+     * This will be change when lazy load
+     * For more description
+     */
+    this.notificationItems = this.propNotificationData.results;
+    this.next = this.propNotificationData.next;
+  },
   data() {
     return {
-      abc: "123",
       isShowNotificationList: false,
       notificationCount: 0,
-      notificationItems: this.notificationData.results,
-      notificationData: this.propNotificationData
+
+      /**
+       * Incase concatNotifcation it will add more notifications to result
+       */
+      notificationItems: this.propNotificationData.results,
+      
+      /**
+       * Incase concatNotificationm it will replace next with some thing next
+       */
+      next: ''
     };
   },
 
   props: {
     /**
-     * Pass anything the api return when OK
+     * Pass anything the api return in results
      * into this. will format data automatically
      */
     propNotificationData: {

@@ -1,4 +1,4 @@
-import notificationBell from  '../../src/components/mirror_components/notification_bell/notification_bell.vue'
+import notificationBell from '../../src/components/mirror_components/notification_bell/notification_bell.vue'
 import {
   shallowMount,
   mount
@@ -7,7 +7,36 @@ import {
   expect
 } from 'chai'
 
-describe('notification bell component', () => {
+describe('notification bell', () => {
+  it('add notification_bell__button--toggle class to button when isToggle = true', () => {
+    // Init with isToggle = true
+    const wrapper = shallowMount(notificationBell, {
+      propsData: {
+        notificationCount: 0,
+        isToggle: true
+      }
+    })
+
+    // notification_bell__button is style class
+    const button = wrapper.find('.notification_bell__button')
+    expect(button.exists()).to.be.true
+    expect(button.classes()).to.eql(['notification_bell__button',  'notification_bell__button--toggle'])
+  })
+
+  it('not add  notification_bell__button--toggle to button when isToggle = false', () => {
+    const wrapper = shallowMount(notificationBell, {
+      propsData: {
+        notificationCount: 0,
+        isToggle: false
+      }
+    })
+
+    // notification_bell__button is style class
+    const button = wrapper.find('.notification_bell__button')
+    expect(button.exists()).to.be.true
+    expect(button.classes()).to.eql(['notification_bell__button'])
+  })
+
   it('should emmit click event if click on button', () => {
     const wrapper = shallowMount(notificationBell, {
       propsData: {
@@ -20,7 +49,7 @@ describe('notification bell component', () => {
     button.trigger('click')
     expect(wrapper.emitted('click')).not.to.be.undefined
   })
-  
+
   it('not render notification count when notification count is zero', () => {
     const wrapper = shallowMount(notificationBell, {
       propsData: {
