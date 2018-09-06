@@ -86,7 +86,7 @@ export default {
 
   computed: {
     notificationItemWrapperClass() {
-      return this.next ? "notification-list__scrollable-wrapper" : "";
+      return this.notificationItems.length >= 5 ? "notification-list__scrollable-wrapper" : "";
     }
   }
 };
@@ -103,7 +103,7 @@ $padding: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 
   &__scrollable-wrapper {
-    height: 350px;
+    height: 345px;
     overflow: auto;
   }
 
