@@ -1,9 +1,8 @@
 <template>
-  <div class="bell">
-    
-    <button class="bell__button">
-      <div class="bell__number">{{formatNotificationCount}}</div>
-      <img src="./bell.svg" class="bell__icon"/>
+  <div class="notification_bell">
+    <button :class="notificationBellButtonClass" @click="notificationBellOnClick">
+      <div class="notification_bell__number" v-if="notificationCount>0">{{formatNotificationCount}}</div>
+      <img src="./notification_bell.svg" class="notification_bell__icon"/>
     </button>
   </div>
 </template>
@@ -19,11 +18,19 @@ export default {
      */
     notificationCount: {
       type: Number
+    },
+
+    /**
+     * Bind class toggle to button
+     * Apply style for state [hover, active, normal]
+     */
+    isToggle: {
+      type: Boolean
     }
   },
 
   methods: {
-    bellOnClick() {
+    notificationBellOnClick() {
       /**
        * Event khi click vào cái chuông
        * @event click
@@ -36,6 +43,13 @@ export default {
   },
 
   computed: {
+    notificationBellButtonClass () {
+      return [
+        'notification_bell__button',
+        this.isToggle ? 'notification_bell__button--toggle' : ''
+      ]
+    },
+
     formatNotificationCount () {
       if (this.notificationCount > 9) {
         return "9+"
@@ -48,7 +62,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.bell {
+.notification_bell {
   display: inline-block;
 
   &__number {
@@ -72,8 +86,16 @@ export default {
       cursor: pointer;
     }
 
-    &:active > .bell__number {
+    &:active > .notification_bell__number {
       display: none
+    }
+
+    &--toggle {
+      &,
+      &:hover,
+      &:active {
+        background: #008b8b;
+      }
     }
 
     outline: 0;
@@ -88,7 +110,7 @@ export default {
 
   &__icon {
     font-size: 30px;
-    background-image: url("./bell.svg");
+    background-image: url("./notification_bell.svg");
   }
 }
 </style>

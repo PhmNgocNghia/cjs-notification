@@ -7,9 +7,9 @@
     <notification_item
       class="notification-list__item"
       :href="href"
-      v-for="notificationData in notificationDatas"
-      :notificationData="notificationData"
-      :key="notificationData.id"/>
+      v-for="notificationItem in notificationItems"
+      :notificationItem="notificationItem"
+      :key="notificationItem.id"/>
 
     <div class="notification-list__footer">
       <a :href="href" class="notification-list__link">
@@ -20,11 +20,9 @@
 </template>
 
 <script>
-import notification_item from '../notification_item/notification_item'
+import notification_item from "../notification_item/notification_item";
 export default {
-  methods: {
-    
-  },
+  methods: {},
 
   components: {
     notification_item
@@ -43,9 +41,8 @@ export default {
      * Pass array object results
      * Return of API
      */
-    notificationDatas: {
-      type: Array,
-      default: []
+    notificationItems: {
+      type: Array
     }
   }
 };
@@ -57,9 +54,12 @@ $padding: 10px;
 .notification-list {
   background: white;
   width: 380px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.175);
 
   &__item {
-    padding: 10px 20px
+    padding: 10px 20px;
   }
 
   &__header {
@@ -82,7 +82,7 @@ $padding: 10px;
     &,
     &:hover,
     &:active {
-      text-decoration: none
+      text-decoration: none;
     }
   }
 }

@@ -3,7 +3,7 @@ Demo
 <template>
   <div class="demo">
     <notification_list
-      :notificationDatas="notificationDatas"
+      :notificationItems="notificationItems"
       href="#" />
   </div>
 </template>
@@ -16,7 +16,7 @@ Demo
   export default {
     data () {
       return {
-        notificationDatas: [
+        notificationItems: [
           {
             "actor_name": "SYSTEM CJS", 
             "actor_avatar": "https://d5b9gphv82ll6.cloudfront.net/img/logo/update_icon.svg", 
