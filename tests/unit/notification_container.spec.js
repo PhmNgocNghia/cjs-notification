@@ -1,4 +1,4 @@
-import notification from '../../src/components/mirror_components/notification/notification.vue'
+import notification_container from '../../src/components/mirror_components/notification_container/notification_container.vue'
 import {
   expect
 } from 'chai'
@@ -10,7 +10,8 @@ describe('notification component', () => {
   const mockedData = {
     "count": 10,
     "unread_list": [
-      11
+      1,
+      2
     ],
     "next": "next page before update",
     "previous": null,
@@ -101,7 +102,7 @@ describe('notification component', () => {
     ]
   }
 
-  const wrapper = mount(notification, {
+  const wrapper = mount(notification_container, {
     propsData: {
       propNotificationData: mockedData,
       href: '#'
@@ -135,6 +136,65 @@ describe('notification component', () => {
 
     it('reverse toggleNotificationStatus (current is false)', () => {
       expect(wrapper.vm.isShowNotificationList).to.be.true
+    })
+
+    it('emmit markAsRead, set notificationCount to zero, and clear unread_list if have notification and notfication being Toggle', () => {
+      // Mount with 
+      const customMockedData = {
+        "count": 10,
+        "unread_list": [
+          1, 2
+        ],
+        "next": "next page before update",
+        "previous": null,
+        "results": [
+        ]
+      }
+
+
+      // Mount data
+      const customWrapper = shallowMount(notification_container, {
+        propsData: {
+          propNotificationData: customMockedData,
+          href: '#'
+        }
+      })
+
+      // Find and click button
+      customWrapper.vm.toggleNotificationList()
+
+      // Assertion
+      expect(customWrapper.emitted('markAsRead')[0][0]).to.eql([1,2])
+      expect(customWrapper.vm.notificationCount).to.equal(0) // Reset notification count to zero
+    })
+
+    it('not emmit markAsRead if no notification count and notification being Toggle', () => {
+      // Mount with 
+      const customMockedData = {
+        "count": 10,
+        "unread_list": [
+        ],
+        "next": "next page before update",
+        "previous": null,
+        "results": [
+        ]
+      }
+
+
+      // Mount data
+      const customWrapper = shallowMount(notification_container, {
+        propsData: {
+          propNotificationData: customMockedData,
+          href: '#'
+        }
+      })
+
+      // Find button and click
+      customWrapper.vm.toggleNotificationList()
+
+      // Assert
+      expect(customWrapper.emitted('markAsRead')).to.be.undefined
+      expect(customWrapper.vm.notificationCount).to.equal(0)
     })
   })
 })

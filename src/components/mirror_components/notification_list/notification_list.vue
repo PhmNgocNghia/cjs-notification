@@ -102,7 +102,7 @@ export default {
 
   computed: {
     notificationItemWrapperClass() {
-      return this.notificationItems.length >= 5
+      return this.next
         ? "notification-list__scrollable-wrapper"
         : "";
     }

@@ -50,7 +50,15 @@ export default {
 
     toggleNotificationList() {
       this.isShowNotificationList = !this.isShowNotificationList;
-      this.notificationCount = 0;
+
+      /**
+       * Emmit markAsRead
+       * Params: unread_list
+       */
+      if (this.notificationCount > 0) {
+        this.$emit('markAsRead', this.propNotificationData.unread_list)      
+        this.notificationCount = 0;
+      }
     }
   },
 

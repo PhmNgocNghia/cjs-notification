@@ -71,14 +71,14 @@ Unread data
     ]
   }
 
-  <notification
+  <notification_container
     :propNotificationData="mockedData"></notification>
 ```
 
 Lazy load data
 ```vue
   <template>
-    <notification
+    <notification_container
     :propNotificationData="mockedData"
     @scroll="onScroll"
     ref="lazy"></notification>

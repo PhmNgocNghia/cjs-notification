@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build:lib": "vue-cli-service build --target lib --name Checkbox ./src/components/Checkbox.vue",
     "lint": "vue-cli-service lint",
-    "t": "vue-cli-service test:unit './tests/unit/notification.spec.js' --watch",
+    "t": "vue-cli-service test:unit './tests/unit/notification_container.spec.js' --watch",
     "test:unit": "vue-cli-service test:unit",
     "test:debug": "vue-cli-service test:unit --watch --inspect-brk",
     "test:coverage": "nyc vue-cli-service test:unit",
