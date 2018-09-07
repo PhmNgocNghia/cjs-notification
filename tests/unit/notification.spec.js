@@ -130,11 +130,11 @@ describe('notification component', () => {
     button.trigger('click')
 
     it('set notificationCount to 0', () => {
-      expect(wrapper.vm.notificationCount).to.have.length(0)
+      expect(wrapper.vm.notificationCount).to.equal(0)
     })
 
-    it('reverse toggleNotificationStatus', () => {
-      expect(wrapper.vm.isShowNotificationList).to.be.false
+    it('reverse toggleNotificationStatus (current is false)', () => {
+      expect(wrapper.vm.isShowNotificationList).to.be.true
     })
   })
 })

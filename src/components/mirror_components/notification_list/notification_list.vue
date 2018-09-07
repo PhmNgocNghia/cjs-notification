@@ -8,12 +8,14 @@
       :class="notificationItemWrapperClass"
       @scroll="scroll"
       ref="notificationItemScrollableWrapper">
+
       <notification_item
         class="notification-list__item"
         :href="href"
         v-for="notificationItem in notificationItems"
         :notificationData="notificationItem"
         :key="notificationItem.id"/>
+
     </div>
 
     <div class="notification-list__footer">
@@ -26,22 +28,36 @@
 
 <script>
 import notification_item from "../notification_item/notification_item";
+
 export default {
   methods: {
     /**
-     * Emmit if next prop exist
-     * Manually test: No Unit Test idea yet ??
+     *  Check behavior when scroll reach bottom
      */
-    scroll() {
-      if (this.next) {
-        const notificationItemScrollableWrapper = this.$refs.notificationItemScrollableWrapper
-        
+    isNotificationItemScroller() {
+      // Pr
+      const notificationItemScrollableWrapper = this.$refs.notificationItemScrollableWrapper;
+
+      return (
         /**
          * Scroll touch bottom
          * Don't know how this shit work but it was ameizing
          */
-        if (notificationItemScrollableWrapper.scrollHeight - notificationItemScrollableWrapper.scrollTop === 
-          notificationItemScrollableWrapper.clientHeight) {
+        notificationItemScrollableWrapper.scrollHeight -
+          notificationItemScrollableWrapper.scrollTop ===
+        notificationItemScrollableWrapper.clientHeight
+      );
+    },
+
+    /**
+     * Emmit if next prop exist
+     * Manually test scroll behavior: No Unit Test idea yet ??
+     *
+     */
+    scroll(IisNotificationItemScroller = this.isNotificationItemScroller) {
+      // Pass a function to mock that behavior
+      if (this.notificationItems.length >= 5) {
+        if (IisNotificationItemScroller()) {
           /**
            * Bubble to top componentn: notificatoin
            *
@@ -86,7 +102,9 @@ export default {
 
   computed: {
     notificationItemWrapperClass() {
-      return this.notificationItems.length >= 5 ? "notification-list__scrollable-wrapper" : "";
+      return this.notificationItems.length >= 5
+        ? "notification-list__scrollable-wrapper"
+        : "";
     }
   }
 };

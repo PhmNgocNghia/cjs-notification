@@ -89,7 +89,6 @@ Lazy load data
     export default {
     methods: {
      onScroll () {
-        console.log(this.updatedData)
         this.$refs.lazy.concatNotificationData(this.updatedData)
       }
     },
