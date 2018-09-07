@@ -54,9 +54,9 @@ export default {
      * Manually test scroll behavior: No Unit Test idea yet ??
      *
      */
-    scroll(IisNotificationItemScroller = this.isNotificationItemScroller) {
+    scroll(e ,IisNotificationItemScroller = this.isNotificationItemScroller) {
       // Pass a function to mock that behavior
-      if (this.notificationItems.length >= 5) {
+      if (this.next) {
         if (IisNotificationItemScroller()) {
           /**
            * Bubble to top componentn: notificatoin
