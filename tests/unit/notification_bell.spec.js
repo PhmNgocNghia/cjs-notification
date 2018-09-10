@@ -7,6 +7,7 @@ import {
   expect
 } from 'chai'
 
+
 describe('notification bell', () => {
   it('add notification_bell__button--toggle class to button when isToggle = true', () => {
     // Init with isToggle = true

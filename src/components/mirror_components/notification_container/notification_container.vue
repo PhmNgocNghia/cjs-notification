@@ -7,12 +7,12 @@
     />
     
     <notification_list
-      @scroll="notificationListOnScroll"
+      @lazyLoad="notificationListOnLazyLoad"
       v-if="isShowNotificationList"
       class="notification__list"
-      :notificationItems="notificationItems"
+      :notificationItems="notificationData.results"
       :href="href"
-      :next="next"
+      :next="notificationData.next"
     />   
   </div>
 </template>
@@ -32,20 +32,20 @@ export default {
      * Input new lazy load data here
      * Automatically assign next + concat notification
      */
-    concatNotificationData (notificationData) {
-      this.next = notificationData.next
-      this.notificationItems = this.notificationItems.concat(notificationData.results)
-    },
+    // concatNotificationData (notificationData) {
+    //   this.next = notificationData.next
+    //   this.notificationItems = this.notificationItems.concat(notificationData.results)
+    // },
 
-    notificationListOnScroll(next) {
+    notificationListOnLazyLoad(next) {
       /**
        * this will be emmited if next provided
        * param: next... resolve outside due to system heavily couple clouldjetAjax
        *
-       * @event scroll
+       * @event lazyLoad
        * @type {string}
        */
-      this.$emit("scroll", next);
+      this.$emit("lazyLoad", next);
     },
 
     toggleNotificationList() {
@@ -56,37 +56,22 @@ export default {
        * Params: unread_list
        */
       if (this.notificationCount > 0) {
-        this.$emit('markAsRead', this.propNotificationData.unread_list)      
+        this.$emit('markAsRead', this.notificationData.unread_list)      
         this.notificationCount = 0;
       }
     }
   },
 
   created() {
-    this.notificationCount = this.propNotificationData.unread_list.length
-
     /**
-     * Set default value
-     * This will be change when lazy load
-     * For more description
+     * Vue doesn't allow to edit props
      */
-    this.notificationItems = this.propNotificationData.results;
-    this.next = this.propNotificationData.next;
+    this.notificationCount = this.notificationData.unread_list.length
   },
   data() {
     return {
       isShowNotificationList: false,
-      notificationCount: 0,
-
-      /**
-       * Incase concatNotifcation it will add more notifications to result
-       */
-      notificationItems: this.propNotificationData.results,
-      
-      /**
-       * Incase concatNotificationm it will replace next with some thing next
-       */
-      next: ''
+      notificationCount: 0
     };
   },
 
@@ -95,7 +80,7 @@ export default {
      * Pass anything the api return in results
      * into this. will format data automatically
      */
-    propNotificationData: {
+    notificationData: {
       type: Object
     },
 

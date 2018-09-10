@@ -104,26 +104,26 @@ describe('notification component', () => {
 
   const wrapper = mount(notification_container, {
     propsData: {
-      propNotificationData: mockedData,
+      notificationData: mockedData,
       href: '#'
     }
   })
 
-  wrapper.vm.concatNotificationData(addMoreData)
+  // wrapper.vm.concatNotificationData(addMoreData)
 
-  describe('concat function', () => {
-    it('set next', () => {
-      expect(wrapper.vm.next).to.equal('next_page_after_update')
-    })
+  // describe('concat function', () => {
+  //   it('set next', () => {
+  //     expect(wrapper.vm.next).to.equal('next_page_after_update')
+  //   })
 
-    it('concat results', () => {
-      expect(wrapper.vm.notificationItems).to.have.length(6)
-    })
-  })
+  //   it('concat results', () => {
+  //     expect(wrapper.vm.notificationItems).to.have.length(6)
+  //   })
+  // })
 
   describe('emit scroll event with next as params when call notification onscroll', () => {
-    wrapper.vm.notificationListOnScroll()
-    expect(wrapper.emitted('scroll'))
+    wrapper.vm.notificationListOnLazyLoad()
+    expect(wrapper.emitted('lazyLoad'))
   })
 
   describe('toggle notification list', () => {
@@ -155,7 +155,7 @@ describe('notification component', () => {
       // Mount data
       const customWrapper = shallowMount(notification_container, {
         propsData: {
-          propNotificationData: customMockedData,
+          notificationData: customMockedData,
           href: '#'
         }
       })
@@ -184,7 +184,7 @@ describe('notification component', () => {
       // Mount data
       const customWrapper = shallowMount(notification_container, {
         propsData: {
-          propNotificationData: customMockedData,
+          notificationData: customMockedData,
           href: '#'
         }
       })

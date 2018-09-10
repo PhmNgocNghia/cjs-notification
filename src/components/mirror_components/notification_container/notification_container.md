@@ -72,24 +72,27 @@ Unread data
   }
 
   <notification_container
-    :propNotificationData="mockedData"></notification>
+    :notificationData="mockedData"></notification_container>
 ```
 
 Lazy load data
 ```vue
   <template>
     <notification_container
-    :propNotificationData="mockedData"
-    @scroll="onScroll"
-    ref="lazy"></notification>
+    :notificationData="mockedData"
+    @lazyLoad="onLazyLoad"
+    ref="lazy"></notification_container>
   </template>
 
   <script>
 
     export default {
     methods: {
-     onScroll () {
-        this.$refs.lazy.concatNotificationData(this.updatedData)
+     onLazyLoad () {
+        /*Update: result, unread_list, next*/
+        this.mockedData.results = this.mockedData.results.concat(this.updatedData.results)
+        this.mockedData.next = this.updatedData.next
+        this.mockedData.unread_list = this.updatedData.unread_list
       }
     },
 

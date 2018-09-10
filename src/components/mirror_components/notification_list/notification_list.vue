@@ -19,7 +19,7 @@
     </div>
 
     <div class="notification-list__footer">
-      <a :href="href" class="notification-list__link" v-if="next">
+      <a :href="href" class="notification-list__link" v-if="isLazyLoadMode">
         Xem tất cả
       </a>
     </div>
@@ -29,6 +29,7 @@
 <script>
 import notification_item from "../notification_item/notification_item";
 
+
 export default {
   methods: {
     /**
@@ -36,7 +37,8 @@ export default {
      */
     isNotificationItemScroller() {
       // Pr
-      const notificationItemScrollableWrapper = this.$refs.notificationItemScrollableWrapper;
+      const notificationItemScrollableWrapper = this.$refs
+        .notificationItemScrollableWrapper;
 
       return (
         /**
@@ -54,17 +56,17 @@ export default {
      * Manually test scroll behavior: No Unit Test idea yet ??
      *
      */
-    scroll(e ,IisNotificationItemScroller = this.isNotificationItemScroller) {
+    scroll(e, IisNotificationItemScroller = this.isNotificationItemScroller) {
       // Pass a function to mock that behavior
       if (this.next) {
         if (IisNotificationItemScroller()) {
           /**
            * Bubble to top componentn: notificatoin
            *
-           * @event scroll
+           * @event lazyLoad
            * @type {string}
            */
-          this.$emit("scroll", this.next);
+          this.$emit("lazyLoad", this.next);
         }
       }
     }
@@ -102,9 +104,16 @@ export default {
 
   computed: {
     notificationItemWrapperClass() {
-      return this.next
-        ? "notification-list__scrollable-wrapper"
-        : "";
+      return this.isLazyLoadMode ? "notification-list__scrollable-wrapper" : "";
+    },
+
+    isLazyLoadMode() {
+      /**
+       * Next some time can be null, 'empty string' but it return false to serve unit test assert purpose
+       * eg: false || null -> null -> expect(null).to.be.false will be failed
+       */
+       // === 5 and have next property -> doesn't lazy load yet
+      return (this.notificationItems.length === 5 && this.next) || this.notificationItems.length > 5;
     }
   }
 };

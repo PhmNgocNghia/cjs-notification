@@ -3,7 +3,7 @@ import {
 } from 'chai'
 
 import {
-	mount
+	mount, shallowMount
 } from '@vue/test-utils'
 
 import notification_list from '../../src/components/mirror_components/notification_list/notification_list.vue'
@@ -88,12 +88,12 @@ describe('notification list', () => {
 	/**
 	 * Call function scroll with MOCKED scroller reach bottom
 	 */
-	it('dispatch scroll event when scroll and next props is not provide', () => {
+	it('dispatch lazyLoad event when scroll and next props is not provide', () => {
 		wrapperWith5notificationsAndProvideNextProps.vm.scroll(() => true) // Mock the behavior: it's scroll bottom
-		expect(wrapperWith5notificationsAndProvideNextProps.emitted('scroll')).not.to.be.undefined
+		expect(wrapperWith5notificationsAndProvideNextProps.emitted('lazyLoad')).not.to.be.undefined
 	})
 
-	it('not dispatch scroll event when scroll and next props is not provide', () => {
+	it('not dispatch lazyLoad event when scroll and next props is not provide', () => {
 		/**
 		 * Create list of 5 notification
 		 * Let it scroll and and check
@@ -111,5 +111,78 @@ describe('notification list', () => {
 	it('not add notification-list__scrollable-wrapper to notification item container div when not provide next props', () => {
 		const notificationContainerDivWithDesireAddedClass = wrapperWith5notificationsAndNotProvideNextProps.find('.notification-list__scrollable-wrapper')
 		expect(notificationContainerDivWithDesireAddedClass.exists()).to.be.false
+	})
+
+	describe('isLazyLoadMode', () => {
+		it('return false if notfication item length smaller than 5', () => {
+			// Mocked
+			const wrapper = shallowMount(notification_list, {
+				propsData: {
+					notificationItems: [{
+						"actor_name": "phmngocnghia",
+						"actor_avatar": "https://d5b9gphv82ll6.cloudfront.net/img/logo/update_icon.svg",
+						"version": "",
+						"release_date": "",
+						"type_notification": "",
+						"timestamp": "2018-09-05T19:54:51.660614",
+						"unread": true,
+						"description": "phmngocnghia completed KPI review. <a href='/performance/kpi-editor/emp/5/' target='blank'>Chi ti\u00ea\u0301t</a>",
+						"id": 9,
+						"actor_object_id": "5"
+					}],
+					next: null
+				}
+			})
+
+			// Assert
+			expect(wrapper.vm.isLazyLoadMode).to.be.false
+		})
+
+		it('return false if notification item length equal five and have no next link', () => {
+			const wrapper = shallowMount(notification_list, {
+				propsData: {
+					notificationItems: mocked5notifications,
+					next: null
+				}
+			})
+
+			// Assert to be fasly such as: null, undefined
+			expect(wrapper.vm.isLazyLoadMode).to.be.not.ok
+		})
+
+		it('return true notfication item length equal five and have next link', () => {
+			const wrapper = shallowMount(notification_list, {
+				propsData: {
+					notificationItems: mocked5notifications,
+					next: 'ahihi'
+				}
+			})
+
+			// Assert: ok ~ truthy
+			expect(wrapper.vm.isLazyLoadMode).to.be.ok
+		})
+
+		it('return true notification item length bigger than 5 and have no next link', () => {
+			const wrapper = shallowMount(notification_list, {
+				propsData: {
+					notificationItems: [...mocked5notifications, {
+						"actor_name": "phmngocnghia",
+						"actor_avatar": "https://d5b9gphv82ll6.cloudfront.net/img/logo/update_icon.svg",
+						"version": "",
+						"release_date": "",
+						"type_notification": "",
+						"timestamp": "2018-09-05T19:54:51.660614",
+						"unread": true,
+						"description": "phmngocnghia completed KPI review. <a href='/performance/kpi-editor/emp/5/' target='blank'>Chi ti\u00ea\u0301t</a>",
+						"id": 9,
+						"actor_object_id": "5"
+					}],
+					next: null
+				}
+			})
+
+			// Assert
+			expect(wrapper.vm.isLazyLoadMode).to.be.true
+		})
 	})
 })
